@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ReleaseRetentionApp": {
+      "commandName": "Project",
+      "commandLineArgs": "1"
+    }
+  }
+}
