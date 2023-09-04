@@ -2,53 +2,41 @@
 using ReleaseRetention.Entities;
 using ReleaseRetention.Utilities;
 
-namespace ReleaseRetentionApp
+Console.SetWindowSize(80, 40);
+
+int noOfReleases;
+
+// validate the input
+bool validInput = int.TryParse(args[0], out noOfReleases);
+
+if (validInput)
 {
-    class Program
+    //Deserialise Json files
+    ListOfJsonData listOfData = JsonFiles.Deserialise(URL.JSON_FilePath);
+
+    if (listOfData.Deployments != null && listOfData.Releases != null && listOfData.Projects != null && listOfData.Environments != null)
     {
-        static void Main(string[] args)
+        List<RetainedDeployments> retainedList = Rules.ApplyReleaseRetention(listOfData, noOfReleases);
+
+        if (retainedList.Count != 0)
         {
-           var noOfReleases = 0;
-            var validInput = false;
-
-            // loop until you have valid input
-            while (!validInput)
-                {                  
-                    // validate the input
-                    validInput = int.TryParse(args[0], out noOfReleases);
-
-                    // if the input is invalid, notify the user
-                    if (!validInput)
-                    {
-                        Console.WriteLine("Invalid input! Please enter a number greater than zero \n");
-                    }
-                }
-                //Deserialise Json files
-                ListOfJsonData listOfData = JsonFiles.Deserialise(URL.JSON_FilePath);
-
-            if (listOfData.Deployments != null && listOfData.Releases != null && listOfData.Projects != null && listOfData.Environments != null)
+            //Print retained list on the console
+            foreach (RetainedDeployments eachDeployment in retainedList)
             {
-                List<RetainedDeployments> retainedList = Rules.ApplyReleaseRetention(listOfData, noOfReleases);
-
-                if (retainedList.Count != 0)
-                {
-                    //Print retained list on the console
-                    foreach (RetainedDeployments eachDeployment in retainedList)
-                    {
-                        Console.BufferHeight = Int16.MaxValue - 1;
-                        Console.WriteLine("| " + eachDeployment.ProjectId + " | " + eachDeployment.EnvironmentId + " | \n" + "| " + eachDeployment.ReleaseId + " | " + eachDeployment.DeploymentId + " |\n| Reason: " + eachDeployment.Reason + "\n\n");                   
-                    }
-                }
-                else
-                    Console.WriteLine("The list returned no data");
-
-                Console.ReadLine();
-            }
-            else
-            {
-                Console.WriteLine("Please use valid Json files");
-                Console.ReadLine();
+                Console.WriteLine("| " + eachDeployment.ProjectId + " | " + eachDeployment.EnvironmentId + " | \n" + "| " + eachDeployment.ReleaseId + " | " + eachDeployment.DeploymentId + " |\n| Reason: " + eachDeployment.Reason + "\n\n");
             }
         }
+        else
+            Console.WriteLine("The list returned no data");
     }
+    else
+    {
+        Console.WriteLine("Please use valid Json files"); 
+    }
+    Console.ReadLine();
+}
+else
+{
+    // if the input is invalid, notify the user
+    Console.WriteLine("Invalid input! Please enter a number greater than zero \n");
 }

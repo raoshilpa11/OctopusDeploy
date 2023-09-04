@@ -7,14 +7,14 @@ namespace ReleaseRetention.Utilities
     {
         public static ListOfJsonData Deserialise(string filePath)
         {
-            ListOfJsonData data = new ListOfJsonData();
+            ListOfJsonData data = new();
 
             try
             {
-                List<Projects> ProjectData = JsonConvert.DeserializeObject<List<Projects>>(File.ReadAllText(filePath + @"\" + Filename.Project));
-                List<Releases> ReleaseData = JsonConvert.DeserializeObject<List<Releases>>(File.ReadAllText(filePath + @"\" + Filename.Release));
-                List<Deployments> DeploymentData = JsonConvert.DeserializeObject<List<Deployments>>(File.ReadAllText(filePath + @"\" + Filename.Deployment));
-                List<Environments> EnvironmentData = JsonConvert.DeserializeObject<List<Environments>>(File.ReadAllText(filePath + @"\" + Filename.Environment));
+                var ProjectData = JsonConvert.DeserializeObject<List<Projects>>(File.ReadAllText(filePath + @"\" + Filename.Project));
+                var ReleaseData = JsonConvert.DeserializeObject<List<Releases>>(File.ReadAllText(filePath + @"\" + Filename.Release));
+                var DeploymentData = JsonConvert.DeserializeObject<List<Deployments>>(File.ReadAllText(filePath + @"\" + Filename.Deployment));
+                var EnvironmentData = JsonConvert.DeserializeObject<List<Environments>>(File.ReadAllText(filePath + @"\" + Filename.Environment));
 
                 data.Deployments = DeploymentData;
                 data.Releases = ReleaseData;
