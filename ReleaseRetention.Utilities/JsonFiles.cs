@@ -29,5 +29,19 @@ namespace ReleaseRetention.Utilities
 
             return data;
         }
+
+        public static string GetEnvironmentList(ListOfJsonData dataFiles)
+        {
+            //Comma separated Environment Id list
+            string? commaSeparatedEnvironmentIds = string.Join(",", dataFiles.Environments.Select(x => x.Id));
+            return commaSeparatedEnvironmentIds;
+        }
+
+        public static string GetProjectList(ListOfJsonData dataFiles)
+        {
+            //Comma separated Project Id list
+            string commaSeparatedProjectIds = string.Join(",", dataFiles.Projects.Select(x => x.Id));
+            return commaSeparatedProjectIds;
+        }
     }
 }

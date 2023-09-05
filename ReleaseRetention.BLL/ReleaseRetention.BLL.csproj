@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ReleaseRetention.Entities\ReleaseRetention.Entities.csproj" />
+    <ProjectReference Include="..\ReleaseRetention.Utilities\ReleaseRetention.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

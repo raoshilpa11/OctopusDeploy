@@ -5,38 +5,45 @@ using ReleaseRetention.Utilities;
 Console.SetWindowSize(80, 40);
 
 int noOfReleases;
+try
+{ 
+    // validate the input
+    bool validInput = int.TryParse(args[0], out noOfReleases);
 
-// validate the input
-bool validInput = int.TryParse(args[0], out noOfReleases);
-
-if (validInput)
-{
-    //Deserialise Json files
-    ListOfJsonData listOfData = JsonFiles.Deserialise(URL.JSON_FilePath);
-
-    if (listOfData.Deployments != null && listOfData.Releases != null && listOfData.Projects != null && listOfData.Environments != null)
+    if (validInput)
     {
-        List<RetainedDeployments> retainedList = Rules.ApplyReleaseRetention(listOfData, noOfReleases);
+        //Deserialise Json files
+        ListOfJsonData listOfData = JsonFiles.Deserialise(URL.JSON_FilePath);
 
-        if (retainedList.Count != 0)
+        if (listOfData.Deployments != null && listOfData.Releases != null && listOfData.Projects != null && listOfData.Environments != null)
         {
-            //Print retained list on the console
-            foreach (RetainedDeployments eachDeployment in retainedList)
+            List<RetainedDeployments> retainedList = Rules.ApplyReleaseRetention(listOfData, noOfReleases);
+
+            if (retainedList.Count != 0)
             {
-                Console.WriteLine("| " + eachDeployment.ProjectId + " | " + eachDeployment.EnvironmentId + " | \n" + "| " + eachDeployment.ReleaseId + " | " + eachDeployment.DeploymentId + " |\n| Reason: " + eachDeployment.Reason + "\n\n");
+                //Print retained list on the console
+                foreach (RetainedDeployments eachDeployment in retainedList)
+                {
+                    Console.WriteLine("| " + eachDeployment.ProjectId + " | " + eachDeployment.EnvironmentId + " | \n" + "| " + eachDeployment.ReleaseId + " | " + eachDeployment.DeploymentId + " |\n| Reason: " + eachDeployment.Reason + "\n\n");
+                }
             }
+            else
+                Console.WriteLine("The list returned no data");
         }
         else
-            Console.WriteLine("The list returned no data");
+        {
+            Console.WriteLine("Please use valid Json files");
+        }
+        Console.ReadLine();
     }
     else
     {
-        Console.WriteLine("Please use valid Json files"); 
+        // if the input is invalid, notify the user
+        Console.WriteLine("Invalid input! Please enter a number greater than zero \n");
     }
-    Console.ReadLine();
 }
-else
+catch (Exception ex)
 {
-    // if the input is invalid, notify the user
-    Console.WriteLine("Invalid input! Please enter a number greater than zero \n");
+    Console.WriteLine(ex.Message);
 }
+

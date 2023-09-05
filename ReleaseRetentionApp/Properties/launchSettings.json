@@ -2,7 +2,7 @@
   "profiles": {
     "ReleaseRetentionApp": {
       "commandName": "Project",
-      "commandLineArgs": "sf dg"
+      "commandLineArgs": "2"
     }
   }
 }

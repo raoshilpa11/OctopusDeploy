@@ -1,4 +1,5 @@
 ﻿using ReleaseRetention.Entities;
+using ReleaseRetention.Utilities;
 
 namespace ReleaseRetention.BLL
 {
@@ -9,13 +10,8 @@ namespace ReleaseRetention.BLL
             List<RetainedDeployments> includeProjectId = new();
             List<RetainedDeployments> retainedList = new();
 
-            //Comma separated Project Id list
-            string commaSeparatedProjectIds = string.Join(",", dataFiles.Projects.Select(x => x.Id));
-            //Comma separated Environment Id list
-            string commaSeparatedEnvironmentIds = string.Join(",", dataFiles.Environments.Select(x => x.Id));
-
-            //Remove Deployments not present in EnvironmentList
-            var cleanAndSortedDeploymentList = dataFiles.Deployments?.Where(x => commaSeparatedEnvironmentIds.Contains(x.EnvironmentId)).OrderByDescending(x => x.DeployedAt);
+            //Remove environments from Deployments list that are not present in EnvironmentList
+            var cleanAndSortedDeploymentList = dataFiles.Deployments?.Where(x => JsonFiles.GetEnvironmentList(dataFiles).Contains(x.EnvironmentId)).OrderByDescending(x => x.DeployedAt);
 
             //Add projectId to RetainedDeployments list
             foreach (Deployments deploymentList in cleanAndSortedDeploymentList)
@@ -33,7 +29,7 @@ namespace ReleaseRetention.BLL
             }
 
             //Remove projects that do not belong to the projectsList. Sort includeProjectId List as per project and environment
-            var finalList = includeProjectId.Where(x => commaSeparatedProjectIds.Contains(x.ProjectId)).GroupBy(x => new { x.ProjectId, x.EnvironmentId }).ToList();
+            var finalList = includeProjectId.Where(x => JsonFiles.GetProjectList(dataFiles).Contains(x.ProjectId)).GroupBy(x => new { x.ProjectId, x.EnvironmentId }).ToList();
 
             //Loop through each project-environment list and pick 'n' releases
             foreach (var eachList in finalList)
