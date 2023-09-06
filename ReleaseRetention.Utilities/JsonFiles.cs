@@ -20,7 +20,6 @@ namespace ReleaseRetention.Utilities
                 data.Releases = ReleaseData;
                 data.Projects = ProjectData;
                 data.Environments = EnvironmentData;
-
             }
             catch (Exception ex)
             {

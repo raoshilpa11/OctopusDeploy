@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ReleaseRetention.Entities
+﻿namespace ReleaseRetention.Entities
 {
     public class Environments
     {

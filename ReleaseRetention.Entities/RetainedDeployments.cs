@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ReleaseRetention.Entities
+﻿namespace ReleaseRetention.Entities
 {
     public class RetainedDeployments
     {
@@ -10,5 +8,6 @@ namespace ReleaseRetention.Entities
         public string? EnvironmentId { get; set; }
         public DateTime DeployedAt { get; set; }
         public string? Reason { get; set; }
+
     }
 }
