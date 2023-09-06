@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ReleaseRetention.Entities;
 
 namespace ReleaseRetention.Utilities.Tests
 {
@@ -8,7 +9,7 @@ namespace ReleaseRetention.Utilities.Tests
         [TestMethod()]
         public void DeserialiseTest()
         {
-            Assert.Fail();
+            Assert.AreEqual(typeof(ListOfJsonData), JsonFiles.Deserialise(URL.JSON_FilePath).GetType());
         }
     }
 }
