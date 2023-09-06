@@ -12,11 +12,11 @@ namespace ReleaseRetention.BLL
 
             if (releaseNumber != 0)
             {
-                //Remove environments from Deployments list that are not present in EnvironmentList
+                //Remove environments from Deployments list that are not present in EnvironmentList and order by DeployedAt, descending order
                 var cleanAndSortedDeploymentList = dataFiles.Deployments?.Where(x => JsonFiles.GetEnvironmentList(dataFiles).Contains(x.EnvironmentId)).OrderByDescending(x => x.DeployedAt);
 
                 //Add projectId to RetainedDeployments list
-                foreach (Deployments deploymentList in cleanAndSortedDeploymentList)
+                foreach (var deploymentList in cleanAndSortedDeploymentList)
                 {
                     RetainedDeployments eachDeployment = new()
                     {

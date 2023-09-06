@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReleaseRetention.Entities;
 
 namespace ReleaseRetention.Utilities.Tests
@@ -13,10 +14,10 @@ namespace ReleaseRetention.Utilities.Tests
 
             ListOfJsonData data = JsonFiles.Deserialise(jsonFilePath);
 
-            if (data.Deployments == null && data.Releases == null && data.Projects == null && data.Environments == null)
-            {
-                Assert.IsTrue(false, $"Assertion failed json data didn't deserialise correctly");
-            }
+            data.Deployments.Should().NotBeNull($"Assertion failed as Deployments json didn't deserialise correctly");
+            data.Releases.Should().NotBeNull($"Assertion failed as Releases json didn't deserialise correctly");
+            data.Projects.Should().NotBeNull($"Assertion failed as Projects json didn't deserialise correctly");
+            data.Environments.Should().NotBeNull($"Assertion failed as Environments json didn't deserialise correctly");
         }
     }
 }

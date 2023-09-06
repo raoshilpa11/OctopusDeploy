@@ -22,7 +22,7 @@ try
                 //Apply release retention rules
                 List<RetainedDeployments> retainedList = Rules.ApplyReleaseRetention(listOfData, noOfReleases);
 
-                if (retainedList.Count != 0)
+                if (!retainedList.Count.Equals(0))
                 {
                     //Print retained list on the console
                     foreach (RetainedDeployments eachDeployment in retainedList)

@@ -15,30 +15,26 @@ namespace ReleaseRetention.BLL.Tests
         public void TestInvalidParameter()
         {
             string inputParameter = "testData";
+
             bool validInput = int.TryParse(inputParameter, out int noOfReleases);
 
-            if (!validInput)
-            {
-                Assert.IsTrue(false, $"Invalid input! Assertion failed because input parameter -" + inputParameter + "- is incorrect");
-            }
+            Assert.IsTrue(validInput, $"Invalid input! Assertion failed because input parameter -" + inputParameter + "- is incorrect");
         }
-       
+
         [TestMethod()]
         public void ApplyReleaseRetention_TestParameter0()
         {
             string inputParameter = "0";
+
             bool validInput = int.TryParse(inputParameter, out int noOfReleases);
 
             if (validInput)
-            {               
+            {
                 ListOfJsonData data = JsonFiles.Deserialise(jsonFilePath);
 
                 List<RetainedDeployments> actualList = Rules.ApplyReleaseRetention(data, noOfReleases);
 
-                if (actualList.Count.Equals(0))
-                {
-                    Assert.IsTrue(false, $"Assertion failed because 0 releases doesn't yeild any results");
-                }
+                Assert.IsTrue(actualList.Any(), $"Assertion failed because 0 releases doesn't yeild any results");
             }
         }
 
@@ -46,7 +42,7 @@ namespace ReleaseRetention.BLL.Tests
         public void ApplyReleaseRetention_TestParameter1()
         {
             string inputParameter = "1";
-           
+
             bool validInput = int.TryParse(inputParameter, out int noOfReleases);
 
             List<RetainedDeployments> expectedList = new()
@@ -61,17 +57,15 @@ namespace ReleaseRetention.BLL.Tests
 
             List<RetainedDeployments> actualList = Rules.ApplyReleaseRetention(data, noOfReleases);
 
-            if (actualList.Count != 0)
-            {
-                expectedList.Should().BeEquivalentTo(actualList, option => option.Excluding(x => x.Reason), "The actual and expected list matched");
-            }
+            expectedList.Should().BeEquivalentTo(actualList, option => option.Excluding(x => x.Reason), "The actual and expected list matched");
+
         }
 
         [TestMethod()]
         public void ApplyReleaseRetention_TestParameter2()
         {
             string inputParameter = "2";
-            
+
             bool validInput = int.TryParse(inputParameter, out int noOfReleases);
 
             List<RetainedDeployments> expectedList = new()
@@ -88,17 +82,14 @@ namespace ReleaseRetention.BLL.Tests
 
             List<RetainedDeployments> actualList = Rules.ApplyReleaseRetention(data, noOfReleases);
 
-            if (actualList.Count != 0)
-            {
-                expectedList.Should().BeEquivalentTo(actualList, option => option.Excluding(x => x.Reason), "The actual and expected list matched");
-            }
+            expectedList.Should().BeEquivalentTo(actualList, option => option.Excluding(x => x.Reason), "The actual and expected list matched");
         }
 
         [TestMethod()]
         public void ApplyReleaseRetention_TestMistmatchResult()
         {
             string inputParameter = "2";
-            
+
             bool validInput = int.TryParse(inputParameter, out int noOfReleases);
 
             List<RetainedDeployments> expectedList = new()
@@ -113,10 +104,7 @@ namespace ReleaseRetention.BLL.Tests
 
             List<RetainedDeployments> actualList = Rules.ApplyReleaseRetention(data, noOfReleases);
 
-            if (actualList.Count != 0)
-            {
-                expectedList.Should().BeEquivalentTo(actualList, option => option.Excluding(x => x.Reason), "The actual and expected list matched");
-            }
+            expectedList.Should().BeEquivalentTo(actualList, option => option.Excluding(x => x.Reason), "The actual and expected list matched");
         }
     }
 }
