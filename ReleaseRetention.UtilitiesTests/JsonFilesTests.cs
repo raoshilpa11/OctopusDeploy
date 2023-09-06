@@ -9,7 +9,14 @@ namespace ReleaseRetention.Utilities.Tests
         [TestMethod()]
         public void DeserialiseTest()
         {
-            Assert.AreEqual(typeof(ListOfJsonData), JsonFiles.Deserialise(URL.JSON_FilePath).GetType());
+            string jsonFilePath = "E:/OctopusDeploy/ReleaseRetentionApp/ReleaseRetentionApp/Json";
+
+            ListOfJsonData data = JsonFiles.Deserialise(jsonFilePath);
+
+            if (data.Deployments == null && data.Releases == null && data.Projects == null && data.Environments == null)
+            {
+                Assert.IsTrue(false, $"Assertion failed json data didn't deserialise correctly");
+            }
         }
     }
 }

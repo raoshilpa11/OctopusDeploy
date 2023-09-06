@@ -12,7 +12,7 @@ namespace ReleaseRetention.Utilities
     
     public class URL
     {
-        public static string JSON_FilePath = ConfigurationManager.AppSettings["JSON_FilePath"];
+        public static string JSON_FilePath = ConfigurationManager.AppSettings["JSON_FilePath"];             
     }
 }
 
