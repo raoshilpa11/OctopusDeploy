@@ -4,6 +4,7 @@ Created a console app that accepts one parameter
 The parameter is validated to check if it's an integer
 No UI, CLI, or database has been used. Final output and error messages are diplayed on a command prompt
 Basic exception handling has been added
+Before running the project, change the path of JSON files in App.config to the path it is locally present
 
 Assumptions -
 All releases should have projects that are present in the Project list else that release will be deleted
